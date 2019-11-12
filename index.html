@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>登录</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="common/app.css" rel="stylesheet" />
+
+		<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
+		<script src="js/mui.min.js"></script>
+		<script src="common/config.js"></script>
+
+		<style>
+			.mui-content {
+				margin-top: 50px;
+			}
+			
+			.mui-btn {
+				padding: 5px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+			</form>
+
+			<div class="mui-content-padded">
+				<button id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<div class="link-area">
+					<a id='reg' href="html/s_register.html">注册账号</a> <span class="spliter">|</span>
+					<a id='forgetPassword' href="html/s_forget.html">忘记密码</a>
+				</div>
+			</div>
+
+			<script>
+				mui('body').on('tap', 'a', function() {
+					window.top.location.href = this.href;
+				});
+
+				var loginButton = document.getElementById('login');
+
+				// 登录信息
+				loginButton.addEventListener('tap', function(event) {
+					var account = document.getElementById('account').value;
+					var password = document.getElementById('password').value;
+
+					if(account == '') {
+						mui.toast('账号不能为空');
+						return;
+					}
+
+					if(password == '') {
+						mui.toast('密码不能为空');
+						return;
+					}
+
+					//请求接口
+					mui.ajax(myConfig.login, {
+						data: JSON.stringify({
+							account: account,
+							password: password
+						}),
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							const {list} = data;
+							if(list.length > 0) {
+								const {
+									account,
+									role
+								} = list[0];
+								localStorage.setItem('account', account);
+								localStorage.setItem('role', role);
+								mui.openWindow({
+									url: 'html/main.html',
+									id: account,
+									preload: true,
+								});
+							} else {
+								mui.toast('用户或者密码错误');
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log(type);
+						}
+					})
+
+				});
+			</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>图书信息</title>
+
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../common/app.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<style>
+			.mui-input-group label {
+				width: 30%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 70%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">图书信息</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+
+				<div class="mui-input-row">
+					<label>标题</label>
+					<input id='title' type="text" class="mui-input-clear mui-input" placeholder="请输入图书标题">
+				</div>
+				<div class="mui-input-row">
+					<label>出版社</label>
+					<input id='press' type="text" class="mui-input-clear mui-input" placeholder="请输入出版社">
+				</div>
+				<div class="mui-input-row">
+					<label>ISBN</label>
+					<input id='isbn' type="text" class="mui-input-clear mui-input" placeholder="请输入ISBN">
+				</div>
+
+				<div class="mui-input-row">
+					<label>版次</label>
+					<input id='email' type="number" class="mui-input-clear mui-input" placeholder="请输入注册邮箱">
+				</div>
+				<div class="mui-input-row">
+					<label>页数</label>
+					<input id='email' type="number" class="mui-input-clear mui-input" placeholder="请输入注册邮箱">
+				</div>
+				<div class="mui-input-row">
+					<label>储备时间</label>
+					<input id='email' type="date" class="mui-input-clear mui-input" placeholder="请输入注册邮箱">
+				</div>
+				<div class="mui-input-row">
+					<label>封面</label>
+					<img id="headimg" class="headimg" src='' height="150" width="150">
+				</div>
+				
+				<div class="mui-input-row">
+					<label>电子图书</label>
+					<img id="headimg" class="headimg" src='' height="150" width="150">
+				</div>
+				
+				
+				
+				
+			</form>
+			<textarea id="textarea" rows="5" placeholder="多行文本框"></textarea>
+			<div class="mui-content-padded">
+				<button id='send' class="mui-btn mui-btn-block mui-btn-primary">提交</button>
+			</div>
+		</div>
+
+		<script>
+			var sendButton = document.getElementById('send');
+
+			sendButton.addEventListener('tap', function() {
+				var account = document.getElementById('account').value;
+				var email = document.getElementById('email').value;
+
+				if(account == '') {
+					mui.toast('账号不能为空');
+					return;
+				}
+
+				if(email == '') {
+					mui.toast('邮箱不能为空');
+					return;
+				}
+
+				mui.toast('最新密码已经发您邮箱');
+
+				// 跳转登录页
+				setTimeout(function() {
+					mui.openWindow({
+						url: '../index.html',
+						id: 'forget_password',
+						preload: true,
+					});
+
+				}, 1500);
+
+			});
+		</script>
+
+	</body>
+
+</html>

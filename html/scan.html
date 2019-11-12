@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>首页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+
+		<script src="../common/config.js"></script>
+		<script src="../common/utils.js"></script>
+
+		<style>
+			.loop-img {
+				height: 160px;
+			}
+			
+			.refresh {
+				font-size: 16px;
+				color: #1caee0;
+				text-align: center;
+				margin: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+
+			<!--输入框-->
+			<div class="mui-input-row mui-search">
+				<input type="search" class="mui-input-clear" placeholder="">
+			</div>
+			<!--图书预览-->
+			<ul class="mui-table-view" id='scan-book'></ul>
+
+			<div class="refresh">
+				<span>查询更多，点击刷新</span>
+				<span class="mui-icon mui-icon-refresh"></span>
+			</div>
+
+			<!--分页-->
+
+			<h5 class="mui-content-padded">猜你喜欢</h5>
+			<ul class="mui-table-view mui-grid-view">
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#">
+						<img class="mui-media-object" src="../images/shuijiao.jpg">
+						<div class="mui-media-body">幸福就是可以一起睡觉</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#">
+						<img class="mui-media-object" src="../images/muwu.jpg">
+						<div class="mui-media-body">想要一间这样的木屋，静静的喝咖啡</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
+						<div class="mui-media-body">Color of SIP CBD</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#">
+						<img class="mui-media-object" src="../images/yuantiao.jpg">
+						<div class="mui-media-body">静静看这世界</div>
+					</a>
+				</li>
+			</ul>
+
+		</div>
+
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+
+		var inputObj = {};
+
+		getScan(inputObj);
+		
+		function getScan(data) {
+			//请求接口
+			mui.ajax(myConfig.scan, {
+				data: JSON.stringify(data),
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				success: function(data) {
+					var list = data.list;
+					var scanBookElement = document.body.querySelector('#scan-book');
+					for(var i = 0; i < list.length; i++) {
+						var url = list[i].url;
+						var title = list[i].title;
+						var desc = list[i].desc;
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell mui-media';
+						li.innerHTML = '<a href="javascript:;"><img class="mui-media-object mui-pull-left" src="' + url + '"><div class="mui-media-body">' + title + '<p class="mui-ellipsis">' + desc + '</p></div></a>';
+						scanBookElement.appendChild(li);
+					}
+
+				},
+			})
+		}
+		
+		
+		
+		
+		
+		
+	</script>
+
+</html>
